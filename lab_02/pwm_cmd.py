@@ -1,96 +1,51 @@
-# -*- coding: utf-8 -*-
-"""
-Created on Fri Feb 22 19:53:28 2019
-
-@author: Adib Yahaya
-"""
-
 import sys
 import argparse
 import time
 import mmap
 import struct
 
-def Enable(arg):
+def WriteToMem(val, reg):
     # open dev mem and see to base address
     f = open("/dev/mem", "r+b")
     mem = mmap.mmap(f.fileno(), 32, offset=0x43c10000)
-    
-    # Enable the PWM
-    toEnable = int(arg)
-    reg = 0
 
-    mem.seek(reg)  
-    mem.write(struct.pack('l', toEnable))
+    toMem = int(val)
 
-    time.sleep(.5) 
+    mem.seek(reg)
+    mem.write(struct.pack('l', toMem))
 
-    mem.seek(reg)  
-    fromMem = struct.unpack('l', mem.read(4))[0] 
-  
-    print str(reg) + " = " + str(fromMem) 
-    # Close mem after finishing
-    mem.close()
-    f.close()
+    time.sleep(.5)
 
-def Period(arg):
-    # open dev mem and see to base address
-    f = open("/dev/mem", "r+b")
-    mem = mmap.mmap(f.fileno(), 32, offset=0x43c10000)
-    
-    # Set the  period
-
-    toPeriod = int(arg)
-    reg = 4
-
-    mem.seek(reg)  
-    mem.write(struct.pack('l', toPeriod))
-
-    time.sleep(.5) 
-
-    mem.seek(reg)  
-    fromMem = struct.unpack('l', mem.read(4))[0] 
+    mem.seek(reg)
+    fromMem = struct.unpack('l', mem.read(4))[0]
 
     print str(reg) + " = " + str(fromMem)
     # Close mem after finishing
     mem.close()
     f.close()
 
-def DutyCycle(arg):
-    # open dev mem and see to base address
-    f = open("/dev/mem", "r+b")
-    mem = mmap.mmap(f.fileno(), 32, offset=0x43c10000)
-    
-    # Set the  duty cycle
+    if (int(val) == int(fromMem)):
+        result = 1
+    else:
+        result = 0
+        print "Failed to write to mem"
 
-    toDutyCycle = int(arg)
-    reg = 8
-
-    mem.seek(reg)  
-    mem.write(struct.pack('l', toDutyCycle))
-
-    time.sleep(.5) 
-
-    mem.seek(reg)  
-    fromMem = struct.unpack('l', mem.read(4))[0] 
-
-    print str(reg) + " = " + str(fromMem)
-    # Close mem after finishing
-    mem.close()
-    f.close()
-
+    return result
 
 def main(argv):
+    # To directly run this script with CLI
     parser = argparse.ArgumentParser(description='Set PWM parameters')
     parser.add_argument('enable', type=int, help='0/1 to disable or enable')
     parser.add_argument('period', type=int, help='Set the PWM frequency')
     parser.add_argument('dutyCycle', type=int, help='Set the duty cycle')
     args = parser.parse_args()
-    
-    Enable(args.enable)
-    Period(args.period)
-    DutyCycle(args.dutyCycle)
 
-        
+    # Enable: reg = 0
+    # Period: reg = 4
+    # Duty Cycle: reg = 8
+    WriteToMem(args.enable, 0)
+    WriteToMem(args.period, 4)
+    WriteToMem(args.dutyCycle, 8)
+
 if __name__ == "__main__":
     main(sys.argv[1:])
