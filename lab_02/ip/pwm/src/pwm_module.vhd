@@ -59,6 +59,8 @@ begin
         error_sig   <= '1';
         output_sig  <= '0';
         counter_sig <= 0;
+      else
+        error_sig   <= '0';
       end if;
     end if;
   end process PWM_generate;

@@ -58,7 +58,7 @@
         <spirit:parameters>
           <spirit:parameter>
             <spirit:name>viewChecksum</spirit:name>
-            <spirit:value>1ad50579</spirit:value>
+            <spirit:value>16e2a7f8</spirit:value>
           </spirit:parameter>
         </spirit:parameters>
       </spirit:view>
@@ -74,7 +74,7 @@
         <spirit:parameters>
           <spirit:parameter>
             <spirit:name>viewChecksum</spirit:name>
-            <spirit:value>1ad50579</spirit:value>
+            <spirit:value>16e2a7f8</spirit:value>
           </spirit:parameter>
         </spirit:parameters>
       </spirit:view>
@@ -201,7 +201,7 @@
       <spirit:file>
         <spirit:name>pwm_module.vhd</spirit:name>
         <spirit:fileType>vhdlSource</spirit:fileType>
-        <spirit:userFileType>CHECKSUM_1ad50579</spirit:userFileType>
+        <spirit:userFileType>CHECKSUM_16e2a7f8</spirit:userFileType>
       </spirit:file>
     </spirit:fileSet>
     <spirit:fileSet>
@@ -257,20 +257,21 @@
       </xilinx:taxonomies>
       <xilinx:displayName>pwm_module_v1_0</xilinx:displayName>
       <xilinx:definitionSource>package_project</xilinx:definitionSource>
-      <xilinx:coreRevision>1</xilinx:coreRevision>
+      <xilinx:coreRevision>2</xilinx:coreRevision>
       <xilinx:upgrades>
         <xilinx:canUpgradeFrom>rit.edu:user:pwm_module:1.0</xilinx:canUpgradeFrom>
       </xilinx:upgrades>
-      <xilinx:coreCreationDateTime>2019-02-18T16:36:05Z</xilinx:coreCreationDateTime>
+      <xilinx:coreCreationDateTime>2019-02-25T15:45:21Z</xilinx:coreCreationDateTime>
       <xilinx:tags>
         <xilinx:tag xilinx:name="nopcore"/>
         <xilinx:tag xilinx:name="rit.edu:user:pwm_module:1.0_ARCHIVE_LOCATION">c:/Users/my3197/Downloads/blinkWithATwistAXI/ip/pwm/src</xilinx:tag>
+        <xilinx:tag xilinx:name="Adib:user:pwm_module:1.0_ARCHIVE_LOCATION">c:/Users/my3197/Downloads/blinkWithATwistAXI/ip/pwm/src</xilinx:tag>
       </xilinx:tags>
     </xilinx:coreExtensions>
     <xilinx:packagingInfo>
       <xilinx:xilinxVersion>2018.2</xilinx:xilinxVersion>
       <xilinx:checksum xilinx:scope="busInterfaces" xilinx:value="10f5cc2c"/>
-      <xilinx:checksum xilinx:scope="fileGroups" xilinx:value="e8de8c39"/>
+      <xilinx:checksum xilinx:scope="fileGroups" xilinx:value="d58893cf"/>
       <xilinx:checksum xilinx:scope="ports" xilinx:value="0c4ef5d8"/>
       <xilinx:checksum xilinx:scope="parameters" xilinx:value="1306784b"/>
     </xilinx:packagingInfo>
