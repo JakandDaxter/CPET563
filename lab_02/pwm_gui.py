@@ -1,3 +1,7 @@
+# Author: Adib Yahaya
+# Date: 2/24/2019
+# CPET563 Lab 2: PWM module with GUI
+
 import sys
 import pwm_cmd
 from PyQt4 import QtGui, QtCore
@@ -67,13 +71,11 @@ class PWM(QtGui.QWidget):
             pwm_cmd.WriteToMem(0, 0)
             self.status.setText("Error occurred")
 
-
 def main():
     app = QtGui.QApplication(sys.argv)
     pwm = PWM()
 
     sys.exit(app.exec_())
-
 
 if __name__ == '__main__':
     main()

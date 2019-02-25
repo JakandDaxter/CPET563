@@ -1,3 +1,7 @@
+# Author: Adib Yahaya
+# Date: 2/24/2019
+# CPET563 Lab 2: PWM module with GUI
+
 import sys
 import argparse
 import time
