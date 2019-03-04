@@ -35,6 +35,10 @@ class BallTracker(QWidget):
     self.greenBallBtn.setChecked(False)
     self.greenBallBtn.toggled.connect(lambda:self.setParamViaBtn(self.greenBallBtn))
 
+    self.ballColorGroup = QButtonGroup()
+    self.ballColorGroup.addButton(self.blueBallBtn)
+    self.ballColorGroup.addButton(self.greenBallBtn)
+
     self.loadImageBtn = QPushButton("Load Image File")
     self.loadImageBtn.clicked[bool].connect(self.loadImageButtonClicked)
 
@@ -102,6 +106,12 @@ class BallTracker(QWidget):
         self.gMax = 255
         self.bMin = 15
         self.bMax = 67
+
+  def uncheckRadioButton(self):
+    self.ballColorGroup.setExclusive(False)
+    self.blueBallBtn.setChecked(False)
+    self.greenBallBtn.setChecked(False)
+    self.ballColorGroup.setExclusive(True)
 
   def displayCentroidValue(self, which, val):
     if val != "" and val != 0:
@@ -182,6 +192,9 @@ class BallTracker(QWidget):
         self.gMax = int(f.readline().split("= ")[1])
         self.bMin = int(f.readline().split("= ")[1])
         self.bMax = int(f.readline().split("= ")[1])
+      # Uncheck all radio buttons selecting which ball
+      # because a custom parameters file has been loaded
+      self.uncheckRadioButton()
 
   def saveParamFileButtonClicked(self):
     fileName = QFileDialog.getSaveFileName(None, "Save parameter file",".txt","(*.txt)")
