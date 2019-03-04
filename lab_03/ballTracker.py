@@ -12,6 +12,7 @@ class BallTracker(QWidget):
   def __init__(self, parent=None):
     super(BallTracker, self).__init__(parent)
     self.initUI()
+    self.initParam()
 
   def initUI(self):
     layout = QVBoxLayout()
@@ -49,6 +50,14 @@ class BallTracker(QWidget):
     layout.addLayout(layout3)
     self.setLayout(layout)
 
+  def initParam(self):
+    self.rMin = 0
+    self.rMax = 0
+    self.gMin = 0
+    self.gMax = 0
+    self.bMin = 0
+    self.bMax = 0
+
 ###############################################################################
 # Load an image file
 ###############################################################################
@@ -69,13 +78,22 @@ class BallTracker(QWidget):
       pass
     else:
       with open(fileName) as f:
-        # Todo: read file
-        pass
+        self.rMin = int(f.readline().split("= ")[1])
+        self.rMax = int(f.readline().split("= ")[1])
+        self.gMin = int(f.readline().split("= ")[1])
+        self.gMax = int(f.readline().split("= ")[1])
+        self.bMin = int(f.readline().split("= ")[1])
+        self.bMax = int(f.readline().split("= ")[1])
+
 
   def saveParamFileButtonClicked(self):
     fileName = QFileDialog.getSaveFileName(None, "Save parameter file",".txt","(*.txt)")
     if fileName == "":
       return
     with open(fileName,"w") as f:
-      # Todo: write parameters to file
-      pass
+      f.write("rMin = " + str(self.rMin)                + "\n")
+      f.write("rMax = " + str(self.rMax)                + "\n")
+      f.write("gMin = " + str(self.gMin)                + "\n")
+      f.write("gMax = " + str(self.gMax)                + "\n")
+      f.write("bMin = " + str(self.bMin)                + "\n")
+      f.write("bMax = " + str(self.bMax))
