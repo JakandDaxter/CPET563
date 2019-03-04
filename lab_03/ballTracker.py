@@ -7,6 +7,8 @@ import sys
 from PyQt4.QtGui import *
 from PyQt4.QtCore import *
 import cv2
+import numpy as np
+import copy
 
 class BallTracker(QWidget):
   def __init__(self, parent=None):
@@ -58,6 +60,42 @@ class BallTracker(QWidget):
     self.bMin = 0
     self.bMax = 0
 
+  def doTracker(self, small_img):
+    # generate threshold array
+    lower = np.array([self.bMin,self.gMin,self.rMin])
+    upper = np.array([self.bMax,self.gMax,self.rMax])
+    
+    mask = cv2.inRange(small_img, lower, upper)
+    mask = cv2.erode(mask, None, iterations=2)
+    mask = cv2.dilate(mask, None, iterations=2)
+
+    maskedImage = cv2.bitwise_and(small_img,small_img,mask=mask)
+    
+    clone_img = copy.copy(small_img)
+    
+    cnts = cv2.findContours(mask.copy(), cv2.RETR_EXTERNAL,cv2.CHAIN_APPROX_SIMPLE)[-2]
+    center = None
+    # only proceed if at least one contour was found
+    if len(cnts) > 0:
+      # find the largest contour in the mask, then use
+      # it to compute the minimum enclosing circle and
+      # centroid
+      c = max(cnts, key=cv2.contourArea)
+      ((x, y), radius) = cv2.minEnclosingCircle(c)
+      M = cv2.moments(c)
+      center = (int(M["m10"] / M["m00"]), int(M["m01"] / M["m00"]))
+  
+      # only proceed if the radius meets a minimum size
+      if radius > 10:
+        # draw the circle and centroid on the frame,
+        # then update the list of tracked points
+        cv2.circle(clone_img, (int(x), int(y)), int(radius),(0, 255, 255), 2)
+        cv2.circle(clone_img, center, 5, (0, 0, 255), -1)
+        
+      print "X-centroid = " + str(x)
+      print "y-centroid = " + str(y)
+
+
 ###############################################################################
 # Load an image file
 ###############################################################################
@@ -67,7 +105,9 @@ class BallTracker(QWidget):
       pass
     else:
       img = cv2.imread(str(fileName))
-      cv2.imshow(str(fileName),img)
+      small_img = cv2.resize(img,(640,480))
+      # cv2.imshow(str(fileName),small_img)
+      self.doTracker(small_img)
 
 ###############################################################################
 # save and load ball detection parameters files
