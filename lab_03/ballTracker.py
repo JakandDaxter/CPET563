@@ -18,9 +18,11 @@ class BallTracker(QWidget):
 
   def initUI(self):
     layout = QVBoxLayout()
-    layout2 = QHBoxLayout()
-    layout3 = QHBoxLayout()
-    layout4 = QHBoxLayout()
+    layout_selectBall = QHBoxLayout()
+    layout_loadImage = QHBoxLayout()
+    layout_centroidLabel = QHBoxLayout()
+    layout_centroidValue = QHBoxLayout()
+    layout_loadsaveParam = QHBoxLayout()
 
     self.ballSelectLabel = QLabel(self)
     self.ballSelectLabel.setText("Select which ball to track:")
@@ -37,23 +39,41 @@ class BallTracker(QWidget):
     self.loadImageBtn.clicked[bool].connect(self.loadImageButtonClicked)
 
     self.loadParamFileBtn = QPushButton("Load Parameters File")
-    self.loadParamFileBtn.setSizePolicy(QSizePolicy.Expanding,QSizePolicy.Expanding)
     self.loadParamFileBtn.clicked[bool].connect(self.loadParamFileButtonClicked)
 
     self.saveParamFileBtn = QPushButton("Save Parameters File")
-    self.saveParamFileBtn.setSizePolicy(QSizePolicy.Expanding,QSizePolicy.Expanding)
     self.saveParamFileBtn.clicked[bool].connect(self.saveParamFileButtonClicked)
 
-    layout2.addWidget(self.ballSelectLabel)
-    layout2.addWidget(self.blueBallBtn)
-    layout2.addWidget(self.greenBallBtn)
-    layout3.addWidget(self.loadImageBtn)
-    layout4.addWidget(self.loadParamFileBtn)
-    layout4.addWidget(self.saveParamFileBtn)
+    self.XcentroidLabel = QLabel(self)
+    self.XcentroidLabel.setText("X-centroid:")
+    self.XcentroidValueLabel = QLabel(self)
+    self.XcentroidValueLabel.setText("")
 
-    layout.addLayout(layout2)
-    layout.addLayout(layout3)
-    layout.addLayout(layout4)
+    self.YcentroidLabel = QLabel(self)
+    self.YcentroidLabel.setText("Y-centroid:")
+    self.YcentroidValueLabel = QLabel(self)
+    self.YcentroidValueLabel.setText("")
+
+    layout_selectBall.addWidget(self.ballSelectLabel)
+    layout_selectBall.addWidget(self.blueBallBtn)
+    layout_selectBall.addWidget(self.greenBallBtn)
+
+    layout_loadImage.addWidget(self.loadImageBtn)
+
+    layout_centroidLabel.addWidget(self.XcentroidLabel)
+    layout_centroidLabel.addWidget(self.YcentroidLabel)
+
+    layout_centroidValue.addWidget(self.XcentroidValueLabel)
+    layout_centroidValue.addWidget(self.YcentroidValueLabel)
+
+    layout_loadsaveParam.addWidget(self.loadParamFileBtn)
+    layout_loadsaveParam.addWidget(self.saveParamFileBtn)
+
+    layout.addLayout(layout_selectBall)
+    layout.addLayout(layout_loadImage)
+    layout.addLayout(layout_centroidLabel)
+    layout.addLayout(layout_centroidValue)
+    layout.addLayout(layout_loadsaveParam)
     self.setLayout(layout)
 
   def initParam(self):
@@ -83,7 +103,22 @@ class BallTracker(QWidget):
         self.bMin = 15
         self.bMax = 67
 
+  def displayCentroidValue(self, which, val):
+    if val != "" and val != 0:
+      if which == "X":
+        self.XcentroidValueLabel.setText(str(val))
+        print "X-centroid = " + str(val)
+      else:
+        self.YcentroidValueLabel.setText(str(val))
+        print "Y-centroid = " + str(val)
+    # If empty or invalid, reset labels
+    else:
+      self.XcentroidValueLabel.setText("NA")
+      self.YcentroidValueLabel.setText("NA")
+
   def doTracker(self, small_img):
+    x = 0
+    y = 0
     # generate threshold array
     lower = np.array([self.bMin,self.gMin,self.rMin])
     upper = np.array([self.bMax,self.gMax,self.rMax])
@@ -116,8 +151,8 @@ class BallTracker(QWidget):
         cv2.circle(clone_img, center, 5, (0, 0, 255), -1)
 
       cv2.imshow('Result',clone_img)
-      print "X-centroid = " + str(x)
-      print "y-centroid = " + str(y)
+    self.displayCentroidValue("X", x)
+    self.displayCentroidValue("Y", y)
 
 ###############################################################################
 # Load an image file
