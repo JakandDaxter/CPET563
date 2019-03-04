@@ -27,29 +27,44 @@ class BallTracker(QWidget):
     self.greenBallBtn = QRadioButton("Green ball")
     self.greenBallBtn.setChecked(False)
 
-    self.loadFileBtn = QPushButton("Load File")
-    self.loadFileBtn.setSizePolicy(QSizePolicy.Expanding,QSizePolicy.Expanding)
-    self.loadFileBtn.clicked[bool].connect(self.loadFileButtonClicked)
+    self.loadImageBtn = QPushButton("Load Image File")
+    self.loadImageBtn.clicked[bool].connect(self.loadImageButtonClicked)
 
-    self.saveFileBtn = QPushButton("Save File")
-    self.saveFileBtn.setSizePolicy(QSizePolicy.Expanding,QSizePolicy.Expanding)
-    self.saveFileBtn.clicked[bool].connect(self.loadFileButtonClicked)
+    self.loadParamFileBtn = QPushButton("Load Parameters File")
+    self.loadParamFileBtn.setSizePolicy(QSizePolicy.Expanding,QSizePolicy.Expanding)
+    self.loadParamFileBtn.clicked[bool].connect(self.loadParamFileButtonClicked)
 
+    self.saveParamFileBtn = QPushButton("Save Parameters File")
+    self.saveParamFileBtn.setSizePolicy(QSizePolicy.Expanding,QSizePolicy.Expanding)
+    self.saveParamFileBtn.clicked[bool].connect(self.saveParamFileButtonClicked)
+
+    layout.addWidget(self.loadImageBtn)
     layout2.addWidget(self.ballSelectLabel)
     layout2.addWidget(self.blueBallBtn)
     layout2.addWidget(self.greenBallBtn)
-    layout3.addWidget(self.loadFileBtn)
-    layout3.addWidget(self.saveFileBtn)
+    layout3.addWidget(self.loadParamFileBtn)
+    layout3.addWidget(self.saveParamFileBtn)
 
     layout.addLayout(layout2)
     layout.addLayout(layout3)
     self.setLayout(layout)
 
 ###############################################################################
+# Load an image file
+###############################################################################
+  def loadImageButtonClicked(self):
+    fileName = QFileDialog.getOpenFileName(None, "Select an image",".","Images (*.jpg *.png)")
+    if not fileName:
+      pass
+    else:
+      img = cv2.imread(str(fileName))
+      cv2.imshow(str(fileName),img)
+
+###############################################################################
 # save and load ball detection parameters files
 ###############################################################################
-  def loadFileButtonClicked(self):
-    fileName = QFileDialog.getOpenFileName(None, "Enter Filename.",".txt","(*.txt)")
+  def loadParamFileButtonClicked(self):
+    fileName = QFileDialog.getOpenFileName(None, "Load parameter file",".txt","(*.txt)")
     if not fileName:
       pass
     else:
@@ -57,8 +72,8 @@ class BallTracker(QWidget):
         # Todo: read file
         pass
 
-  def saveFileButtonClicked(self):
-    fileName = QFileDialog.getSaveFileName(None, "Enter Filename",".txt","(*.txt)")
+  def saveParamFileButtonClicked(self):
+    fileName = QFileDialog.getSaveFileName(None, "Save parameter file",".txt","(*.txt)")
     if fileName == "":
       return
     with open(fileName,"w") as f:

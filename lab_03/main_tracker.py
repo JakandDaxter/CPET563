@@ -17,7 +17,9 @@ class MainWindow(QMainWindow):
     self.setWindowTitle("Ball Tracker")
 
     self.statusBar()
-    self.initMenuBar()
+    # Menubar is not used
+    # Load image in ballTracker widget instead
+    # self.initMenuBar()
     self.instantiateWidgets()
     self.initDocks()
 
