@@ -101,11 +101,11 @@ class BallTracker(QWidget):
     else:
       if btn.isChecked() == True:
         self.rMin = 0
-        self.rMax = 134
-        self.gMin = 65
+        self.rMax = 50
+        self.gMin = 0
         self.gMax = 255
-        self.bMin = 15
-        self.bMax = 67
+        self.bMin = 0
+        self.bMax = 120
 
   def uncheckRadioButton(self):
     self.ballColorGroup.setExclusive(False)
