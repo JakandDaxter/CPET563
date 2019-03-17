@@ -23,6 +23,7 @@ class BallTracker(QWidget):
     layout_centroidLabel = QHBoxLayout()
     layout_centroidValue = QHBoxLayout()
     layout_loadsaveParam = QHBoxLayout()
+    layout_sliders = QVBoxLayout()
 
     self.ballSelectLabel = QLabel(self)
     self.ballSelectLabel.setText("Select which ball to track:")
@@ -58,6 +59,30 @@ class BallTracker(QWidget):
     self.YcentroidValueLabel = QLabel(self)
     self.YcentroidValueLabel.setText("")
 
+    self.rMinLabel = QLabel(self)
+    self.rMinLabel.setText("Red min")
+    self.rMinSlider = QSlider(Qt.Horizontal)
+
+    self.rMaxLabel = QLabel(self)
+    self.rMaxLabel.setText("Red max")
+    self.rMaxSlider = QSlider(Qt.Horizontal)
+
+    self.gMinLabel = QLabel(self)
+    self.gMinLabel.setText("Green min")
+    self.gMinSlider = QSlider(Qt.Horizontal)
+
+    self.gMaxLabel = QLabel(self)
+    self.gMaxLabel.setText("Green max")
+    self.gMaxSlider = QSlider(Qt.Horizontal)
+
+    self.bMinLabel = QLabel(self)
+    self.bMinLabel.setText("Blue min")
+    self.bMinSlider = QSlider(Qt.Horizontal)
+
+    self.bMaxLabel = QLabel(self)
+    self.bMaxLabel.setText("Blue max")
+    self.bMaxSlider = QSlider(Qt.Horizontal)
+
     layout_selectBall.addWidget(self.ballSelectLabel)
     layout_selectBall.addWidget(self.blueBallBtn)
     layout_selectBall.addWidget(self.greenBallBtn)
@@ -73,7 +98,23 @@ class BallTracker(QWidget):
     layout_loadsaveParam.addWidget(self.loadParamFileBtn)
     layout_loadsaveParam.addWidget(self.saveParamFileBtn)
 
+    layout_sliders.addWidget(self.rMinLabel)
+    layout_sliders.addWidget(self.rMinSlider)
+    layout_sliders.addWidget(self.rMaxLabel)
+    layout_sliders.addWidget(self.rMaxSlider)
+
+    layout_sliders.addWidget(self.gMinLabel)
+    layout_sliders.addWidget(self.gMinSlider)
+    layout_sliders.addWidget(self.gMaxLabel)
+    layout_sliders.addWidget(self.gMaxSlider)
+
+    layout_sliders.addWidget(self.bMinLabel)
+    layout_sliders.addWidget(self.bMinSlider)
+    layout_sliders.addWidget(self.bMaxLabel)
+    layout_sliders.addWidget(self.bMaxSlider)
+
     layout.addLayout(layout_selectBall)
+    layout.addLayout(layout_sliders)
     layout.addLayout(layout_loadImage)
     layout.addLayout(layout_centroidLabel)
     layout.addLayout(layout_centroidValue)
