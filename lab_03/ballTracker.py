@@ -240,9 +240,9 @@ class BallTracker(QWidget):
       self.YcentroidValueLabel.setText("NA")
 
   def doTracker(self, small_img):
-    if not small_img.all():
+    if not small_img.any():
       # No image loaded
-      pass
+      print "error loading image"
     else:
       x = 0
       y = 0
@@ -277,7 +277,7 @@ class BallTracker(QWidget):
           cv2.circle(clone_img, (int(x), int(y)), int(radius),(0, 255, 255), 2)
           cv2.circle(clone_img, center, 5, (0, 0, 255), -1)
 
-        cv2.imshow('Result',clone_img)
+      cv2.imshow('Result',clone_img)
       self.displayCentroidValue("X", x)
       self.displayCentroidValue("Y", y)
 
